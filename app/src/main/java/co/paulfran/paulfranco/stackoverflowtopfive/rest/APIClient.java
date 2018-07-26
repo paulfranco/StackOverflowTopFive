@@ -1,5 +1,8 @@
 package co.paulfran.paulfranco.stackoverflowtopfive.rest;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class APIClient {
     public static final String BASE_URL = "https://api.stackexchange.com";
     private static Retrofit retrofit = null;
