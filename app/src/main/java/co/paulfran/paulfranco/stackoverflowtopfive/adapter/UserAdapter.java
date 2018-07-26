@@ -1,4 +1,115 @@
 package co.paulfran.paulfranco.stackoverflowtopfive.adapter;
 
-public class UserAdapter {
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import co.paulfran.paulfranco.stackoverflowtopfive.R;
+import co.paulfran.paulfranco.stackoverflowtopfive.model.User;
+
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolder> {
+
+    // Global Variables
+    private List<User> users;
+    private Context context;
+    private int rowLayout;
+
+    // Contructor
+    public UserAdapter(List<User> users, int rowLayout, Context context) {
+        this.setUsers(users);
+        this.setRowLayout(rowLayout);
+        this.setContext(context);
+    }
+
+    // Getters and setters
+    public List<User> getUsers() {return users;}
+
+    public void setUsers(List<User> users) {this.users = users;}
+
+    public Context getContext() {return context;}
+
+    public void setContext(Context context) {this.context = context;}
+
+    public int getRowLayout() {return rowLayout;}
+
+    public void setRowLayout(int rowLayout) {this.rowLayout = rowLayout;}
+
+    // UsersViewHolder class
+    public static class UsersViewHolder extends RecyclerView.ViewHolder {
+
+        // Begin instantiation of views
+        LinearLayout usersLayout;
+        TextView userName;
+        TextView userReputation;
+        TextView userLocation;
+
+        TextView goldenBdge;
+        TextView goldenValue;
+        TextView silverBadge;
+        TextView silverValue;
+        TextView bronzeBadge;
+        TextView bronzeValue;
+
+        public UsersViewHolder(View itemView) {
+            super(itemView);
+            // Set views to layout resources
+            usersLayout = (LinearLayout) itemView.findViewById(R.id.usersLayout);
+            userName = (TextView) itemView.findViewById(R.id.userName);
+            userReputation = (TextView) itemView.findViewById(R.id.userReputation);
+            userLocation = (TextView) itemView.findViewById(R.id.userLocation);
+            goldenBdge = (TextView) itemView.findViewById(R.id.goldenBadge);
+            goldenValue = (TextView) itemView.findViewById(R.id.goldenValue);
+            silverBadge = (TextView) itemView.findViewById(R.id.silverBadge);
+            silverValue = (TextView) itemView.findViewById(R.id.silverValue);
+            bronzeBadge = (TextView) itemView.findViewById(R.id.bronzeBadge);
+            bronzeValue = (TextView) itemView.findViewById(R.id.bronzeValue);
+        }
+    }
+
+
+
+
+    @Override
+    public UsersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(rowLayout, parent, false);
+        return new UsersViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(UsersViewHolder holder, int position) {
+        holder.userLocation.setText("Location: "+users.get(position).getLocation());
+        holder.userReputation.setText("Reputation: " + users.get(position).getReputation());
+        holder.userName.setText("Username: " + users.get(position).getUserName());
+
+        Iterator<Map.Entry<String,Integer>> it  =
+                users.get(position).getBadges().entrySet().iterator();
+
+        Map.Entry<String,Integer> pair = it.next();
+        holder.goldenBdge.setText(pair.getKey() + " : ");
+        holder.goldenValue.setText(pair.getValue().toString());
+
+        pair = it.next();
+        holder.silverBadge.setText(pair.getKey() + " : ");
+        holder.silverValue.setText(pair.getValue().toString());
+
+        pair = it.next();
+        holder.bronzeBadge.setText(pair.getKey() + " : ");
+        holder.bronzeValue.setText(pair.getValue().toString());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return users.size();
+    }
+
 }
